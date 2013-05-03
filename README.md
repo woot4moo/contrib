@@ -20,4 +20,4 @@ Disclaimer
 ----------
 The MITRE Corporation and STIX Project team do not take any responsibility for the contents of this community-driven repository and make no claims regarding the quality, validity and usefulness of the submitted code.
 
-The STIX Project team may accept or reject contributions at will.
+The STIX Project team reserves the right to reject contributions.
