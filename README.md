@@ -1,4 +1,23 @@
-contrib
-=======
+Community Contribution Repository
+=================================
+This is an open repository dedicated to **contributions from the commmunity**. Here you are able to submit custom scripts and utilities that provide capabilities to the cyber threat intelligence community.
 
-User-contributed scripts and utilities
+We believe that there are many useful utilities currently being deployed in operational and/or experimental environments that can provide value to the cyber threat intelligence community members. This repository provides a common place to submit, browse, and contribute to these scripts.
+
+How To Use This Repository
+--------------------------
+Submissions to this repository will be managed through [Pull Requests](https://help.github.com/articles/using-pull-requests). A pull request will be responded to as quickly as possible, allowing for further discussion if required.
+
+When submitting a utility to this repository make sure that the following requirements are met:
+* The code works
+* The code clearly states its alignment with an [OSI-approved License](http://opensource.org/licenses)
+* The code includes a README, detailing its intended use
+* The code must exist within its own directory
+
+If a script directly produces, consumes, or otherwise makes use of structured cyber threat information expressed as [STIX](http://stix.mitre.org), it may be requested that the script be moved to the STIX Tools repository, or another more specialized repository.
+
+Disclaimer
+----------
+The MITRE Corporation and STIX Project team do not take any responsibility for the contents of this community-driven repository and make no claims regarding the quality, validity and usefulness of the submitted code.
+
+The STIX Project team may accept or reject contributions at will.
