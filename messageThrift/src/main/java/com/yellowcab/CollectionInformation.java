@@ -6,24 +6,31 @@
  */
 package com.yellowcab;
 
-import org.apache.thrift.EncodingUtils;
-import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TProtocolException;
-import org.apache.thrift.protocol.TTupleProtocol;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
-import org.apache.thrift.scheme.TupleScheme;
-import org.apache.thrift.server.AbstractNonblockingServer.*;
 
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
+import org.apache.thrift.scheme.TupleScheme;
+import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TProtocolException;
+import org.apache.thrift.EncodingUtils;
+import org.apache.thrift.TException;
+import org.apache.thrift.async.AsyncMethodCallback;
+import org.apache.thrift.server.AbstractNonblockingServer.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A TAXII Data Collection.
@@ -103,7 +110,7 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
    *   have access, known not to have access, or that access
    *   is unknown. Absence of this field indicates that access
    *   is unknown.
-   *
+   * 
    *   NOTE: For implementation purposes Unknown Access will be treated as equivalent to NO Access.
    *   There is no fundamental difference between these two choices, and regardless of the unknown/no access
    *   the client will not get a result.
@@ -131,7 +138,7 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
    *   Services support this TAXII Data Collection. This field
    *   has multiple sub-fields. Absence of this field indicates
    *   that this Data Collection cannot be polled using TAXII.
-   *
+   * 
    * *
    */
   public Set<PollingInstance> pollingServiceInstances; // optional
@@ -162,7 +169,7 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
    *       sent to this Inbox Service MAY still be rejected by the
    *       recipient for any reason instead of adding it to the
    *       indicated Data Collection.
-   *
+   * 
    * *
    */
   public Set<ReceivingInboxService> receivingInboxServices; // optional
@@ -181,7 +188,7 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
      *   (unordered Collection). Absence of this field denotes
      *   that this Collection is a Data Feed
      * *
-     *
+     * 
      * @see CollectionType
      */
     TYPE((short)2, "type"),
@@ -223,7 +230,7 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
      *   have access, known not to have access, or that access
      *   is unknown. Absence of this field indicates that access
      *   is unknown.
-     *
+     * 
      *   NOTE: For implementation purposes Unknown Access will be treated as equivalent to NO Access.
      *   There is no fundamental difference between these two choices, and regardless of the unknown/no access
      *   the client will not get a result.
@@ -251,7 +258,7 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
      *   Services support this TAXII Data Collection. This field
      *   has multiple sub-fields. Absence of this field indicates
      *   that this Data Collection cannot be polled using TAXII.
-     *
+     * 
      * *
      */
     POLLING_SERVICE_INSTANCES((short)8, "pollingServiceInstances"),
@@ -282,7 +289,7 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
      *       sent to this Inbox Service MAY still be rejected by the
      *       recipient for any reason instead of adding it to the
      *       indicated Data Collection.
-     *
+     * 
      * *
      */
     RECEIVING_INBOX_SERVICES((short)10, "receivingInboxServices");
@@ -363,34 +370,34 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
   private static final int __VOLUME_ISSET_ID = 0;
   private static final int __ISAVAILABLE_ISSET_ID = 1;
   private byte __isset_bitfield = 0;
-  private _Fields optionals[] = {_Fields.TYPE, _Fields.VOLUME, _Fields.SUPPORTED_CONTENT, _Fields.IS_AVAILABLE, _Fields.PUSH_METHODS, _Fields.POLLING_SERVICE_INSTANCES, _Fields.SUBSCRIPTION_METHODS, _Fields.RECEIVING_INBOX_SERVICES};
+  private _Fields optionals[] = {_Fields.TYPE,_Fields.VOLUME,_Fields.SUPPORTED_CONTENT,_Fields.IS_AVAILABLE,_Fields.PUSH_METHODS,_Fields.POLLING_SERVICE_INSTANCES,_Fields.SUBSCRIPTION_METHODS,_Fields.RECEIVING_INBOX_SERVICES};
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.REQUIRED,
+    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.TYPE, new org.apache.thrift.meta_data.FieldMetaData("type", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, CollectionType.class)));
-    tmpMap.put(_Fields.DESCRIPTION, new org.apache.thrift.meta_data.FieldMetaData("description", org.apache.thrift.TFieldRequirementType.REQUIRED,
+    tmpMap.put(_Fields.DESCRIPTION, new org.apache.thrift.meta_data.FieldMetaData("description", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.VOLUME, new org.apache.thrift.meta_data.FieldMetaData("volume", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.VOLUME, new org.apache.thrift.meta_data.FieldMetaData("volume", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
-    tmpMap.put(_Fields.SUPPORTED_CONTENT, new org.apache.thrift.meta_data.FieldMetaData("supportedContent", org.apache.thrift.TFieldRequirementType.OPTIONAL,
-        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET,
+    tmpMap.put(_Fields.SUPPORTED_CONTENT, new org.apache.thrift.meta_data.FieldMetaData("supportedContent", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, SupportedContent.class))));
-    tmpMap.put(_Fields.IS_AVAILABLE, new org.apache.thrift.meta_data.FieldMetaData("isAvailable", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.IS_AVAILABLE, new org.apache.thrift.meta_data.FieldMetaData("isAvailable", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.PUSH_METHODS, new org.apache.thrift.meta_data.FieldMetaData("pushMethods", org.apache.thrift.TFieldRequirementType.OPTIONAL,
-        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET,
+    tmpMap.put(_Fields.PUSH_METHODS, new org.apache.thrift.meta_data.FieldMetaData("pushMethods", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PushMethod.class))));
-    tmpMap.put(_Fields.POLLING_SERVICE_INSTANCES, new org.apache.thrift.meta_data.FieldMetaData("pollingServiceInstances", org.apache.thrift.TFieldRequirementType.OPTIONAL,
-        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET,
+    tmpMap.put(_Fields.POLLING_SERVICE_INSTANCES, new org.apache.thrift.meta_data.FieldMetaData("pollingServiceInstances", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PollingInstance.class))));
-    tmpMap.put(_Fields.SUBSCRIPTION_METHODS, new org.apache.thrift.meta_data.FieldMetaData("subscriptionMethods", org.apache.thrift.TFieldRequirementType.OPTIONAL,
-        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET,
+    tmpMap.put(_Fields.SUBSCRIPTION_METHODS, new org.apache.thrift.meta_data.FieldMetaData("subscriptionMethods", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, SubscriptionMethod.class))));
-    tmpMap.put(_Fields.RECEIVING_INBOX_SERVICES, new org.apache.thrift.meta_data.FieldMetaData("receivingInboxServices", org.apache.thrift.TFieldRequirementType.OPTIONAL,
-        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET,
+    tmpMap.put(_Fields.RECEIVING_INBOX_SERVICES, new org.apache.thrift.meta_data.FieldMetaData("receivingInboxServices", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ReceivingInboxService.class))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CollectionInformation.class, metaDataMap);
@@ -526,7 +533,7 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
    *   (unordered Collection). Absence of this field denotes
    *   that this Collection is a Data Feed
    * *
-   *
+   * 
    * @see CollectionType
    */
   public CollectionType getType() {
@@ -539,7 +546,7 @@ public class CollectionInformation implements org.apache.thrift.TBase<Collection
    *   (unordered Collection). Absence of this field denotes
    *   that this Collection is a Data Feed
    * *
-   *
+   * 
    * @see CollectionType
    */
   public CollectionInformation setType(CollectionType type) {

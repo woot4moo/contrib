@@ -6,21 +6,31 @@
  */
 package com.yellowcab;
 
-import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TProtocolException;
-import org.apache.thrift.protocol.TTupleProtocol;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
-import org.apache.thrift.scheme.TupleScheme;
-import org.apache.thrift.server.AbstractNonblockingServer.*;
 
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
+import org.apache.thrift.scheme.TupleScheme;
+import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TProtocolException;
+import org.apache.thrift.EncodingUtils;
+import org.apache.thrift.TException;
+import org.apache.thrift.async.AsyncMethodCallback;
+import org.apache.thrift.server.AbstractNonblockingServer.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This message is used to establish a new subscription or manage an existing subscription
@@ -69,7 +79,7 @@ public class ManageCollectionSubscriptionRequest implements org.apache.thrift.TB
    *       aspects of the requested subscription. This field MUST be
    *       included if and only if the Action of this message is
    *       SUBSCRIBE and MUST be ignored for all other Action values.
-   *
+   * 
    *       NOTE: Implementors must make this field required if and only if the
    *       value of the Action field is SUBSCRIBE
    * *
@@ -100,8 +110,8 @@ public class ManageCollectionSubscriptionRequest implements org.apache.thrift.TB
     COLLECTION_NAME((short)1, "collectionName"),
     /**
      * This field identifies the requested action to take
-     *
-     *
+     * 
+     * 
      * @see CollectionSubscriptionAction
      */
     ACTION((short)2, "action"),
@@ -120,7 +130,7 @@ public class ManageCollectionSubscriptionRequest implements org.apache.thrift.TB
      *       aspects of the requested subscription. This field MUST be
      *       included if and only if the Action of this message is
      *       SUBSCRIBE and MUST be ignored for all other Action values.
-     *
+     * 
      *       NOTE: Implementors must make this field required if and only if the
      *       value of the Action field is SUBSCRIBE
      * *
@@ -204,19 +214,19 @@ public class ManageCollectionSubscriptionRequest implements org.apache.thrift.TB
   }
 
   // isset id assignments
-  private _Fields optionals[] = {_Fields.SUBSCRIPTION_ID, _Fields.SUBSCRIPTION_PARAMETER, _Fields.DELIVERY_PARAMETER};
+  private _Fields optionals[] = {_Fields.SUBSCRIPTION_ID,_Fields.SUBSCRIPTION_PARAMETER,_Fields.DELIVERY_PARAMETER};
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.COLLECTION_NAME, new org.apache.thrift.meta_data.FieldMetaData("collectionName", org.apache.thrift.TFieldRequirementType.REQUIRED,
+    tmpMap.put(_Fields.COLLECTION_NAME, new org.apache.thrift.meta_data.FieldMetaData("collectionName", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.ACTION, new org.apache.thrift.meta_data.FieldMetaData("action", org.apache.thrift.TFieldRequirementType.REQUIRED,
+    tmpMap.put(_Fields.ACTION, new org.apache.thrift.meta_data.FieldMetaData("action", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, CollectionSubscriptionAction.class)));
-    tmpMap.put(_Fields.SUBSCRIPTION_ID, new org.apache.thrift.meta_data.FieldMetaData("subscriptionId", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.SUBSCRIPTION_ID, new org.apache.thrift.meta_data.FieldMetaData("subscriptionId", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.SUBSCRIPTION_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("subscriptionParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.SUBSCRIPTION_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("subscriptionParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, SubscriptionParameter.class)));
-    tmpMap.put(_Fields.DELIVERY_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("deliveryParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.DELIVERY_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("deliveryParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, DeliveryParameter.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ManageCollectionSubscriptionRequest.class, metaDataMap);
@@ -304,8 +314,8 @@ public class ManageCollectionSubscriptionRequest implements org.apache.thrift.TB
 
   /**
    * This field identifies the requested action to take
-   *
-   *
+   * 
+   * 
    * @see CollectionSubscriptionAction
    */
   public CollectionSubscriptionAction getAction() {
@@ -314,8 +324,8 @@ public class ManageCollectionSubscriptionRequest implements org.apache.thrift.TB
 
   /**
    * This field identifies the requested action to take
-   *
-   *
+   * 
+   * 
    * @see CollectionSubscriptionAction
    */
   public ManageCollectionSubscriptionRequest setAction(CollectionSubscriptionAction action) {

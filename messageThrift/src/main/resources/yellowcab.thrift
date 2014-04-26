@@ -1393,7 +1393,6 @@ struct TaxiiPollResponse{
       Content Block(s). This field SHOULD be present in all Poll
       Response messages.
 
-FIXME
     **/
     9: optional RecordCount recordCount;
     /**

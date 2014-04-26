@@ -6,23 +6,31 @@
  */
 package com.yellowcab;
 
-import org.apache.thrift.EncodingUtils;
-import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TTupleProtocol;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
-import org.apache.thrift.scheme.TupleScheme;
-import org.apache.thrift.server.AbstractNonblockingServer.*;
 
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
+import org.apache.thrift.scheme.TupleScheme;
+import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TProtocolException;
+import org.apache.thrift.EncodingUtils;
+import org.apache.thrift.TException;
+import org.apache.thrift.async.AsyncMethodCallback;
+import org.apache.thrift.server.AbstractNonblockingServer.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Used to indicate the content of a Poll Response
@@ -78,7 +86,7 @@ public class PollParameter implements org.apache.thrift.TBase<PollParameter, Pol
    *   to this message. The query expression may be structured;
    *   the specific structure used for the query expression is
    *   identified in the Query Format field.
-   *
+   * 
    * *
    */
   public Query query; // optional
@@ -122,7 +130,7 @@ public class PollParameter implements org.apache.thrift.TBase<PollParameter, Pol
      * included).
      * Absence of this field indicates a request for FULL
      * responses
-     *
+     * 
      * @see PollParameterResponseType
      */
     RESPONSE_TYPE((short)1, "responseType"),
@@ -145,7 +153,7 @@ public class PollParameter implements org.apache.thrift.TBase<PollParameter, Pol
      *   to this message. The query expression may be structured;
      *   the specific structure used for the query expression is
      *   identified in the Query Format field.
-     *
+     * 
      * *
      */
     QUERY((short)3, "query"),
@@ -240,20 +248,20 @@ public class PollParameter implements org.apache.thrift.TBase<PollParameter, Pol
   // isset id assignments
   private static final int __ALLOWASYNCH_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
-  private _Fields optionals[] = {_Fields.RESPONSE_TYPE, _Fields.CONTENT_BINDING, _Fields.QUERY, _Fields.ALLOW_ASYNCH, _Fields.DELIEVERY_PARAMETER};
+  private _Fields optionals[] = {_Fields.RESPONSE_TYPE,_Fields.CONTENT_BINDING,_Fields.QUERY,_Fields.ALLOW_ASYNCH,_Fields.DELIEVERY_PARAMETER};
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.RESPONSE_TYPE, new org.apache.thrift.meta_data.FieldMetaData("responseType", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.RESPONSE_TYPE, new org.apache.thrift.meta_data.FieldMetaData("responseType", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, PollParameterResponseType.class)));
-    tmpMap.put(_Fields.CONTENT_BINDING, new org.apache.thrift.meta_data.FieldMetaData("contentBinding", org.apache.thrift.TFieldRequirementType.OPTIONAL,
-        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET,
+    tmpMap.put(_Fields.CONTENT_BINDING, new org.apache.thrift.meta_data.FieldMetaData("contentBinding", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ContentBinding.class))));
-    tmpMap.put(_Fields.QUERY, new org.apache.thrift.meta_data.FieldMetaData("query", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.QUERY, new org.apache.thrift.meta_data.FieldMetaData("query", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Query.class)));
-    tmpMap.put(_Fields.ALLOW_ASYNCH, new org.apache.thrift.meta_data.FieldMetaData("allowAsynch", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.ALLOW_ASYNCH, new org.apache.thrift.meta_data.FieldMetaData("allowAsynch", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
-    tmpMap.put(_Fields.DELIEVERY_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("delieveryParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.DELIEVERY_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("delieveryParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, DeliveryParameter.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(PollParameter.class, metaDataMap);
@@ -314,7 +322,7 @@ public class PollParameter implements org.apache.thrift.TBase<PollParameter, Pol
    * included).
    * Absence of this field indicates a request for FULL
    * responses
-   *
+   * 
    * @see PollParameterResponseType
    */
   public PollParameterResponseType getResponseType() {
@@ -333,7 +341,7 @@ public class PollParameter implements org.apache.thrift.TBase<PollParameter, Pol
    * included).
    * Absence of this field indicates a request for FULL
    * responses
-   *
+   * 
    * @see PollParameterResponseType
    */
   public PollParameter setResponseType(PollParameterResponseType responseType) {

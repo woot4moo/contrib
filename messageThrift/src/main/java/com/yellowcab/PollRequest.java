@@ -6,21 +6,31 @@
  */
 package com.yellowcab;
 
-import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TProtocolException;
-import org.apache.thrift.protocol.TTupleProtocol;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
-import org.apache.thrift.scheme.TupleScheme;
-import org.apache.thrift.server.AbstractNonblockingServer.*;
 
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
+import org.apache.thrift.scheme.TupleScheme;
+import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TProtocolException;
+import org.apache.thrift.EncodingUtils;
+import org.apache.thrift.TException;
+import org.apache.thrift.async.AsyncMethodCallback;
+import org.apache.thrift.server.AbstractNonblockingServer.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * * This message is sent from a Consumer to a TAXII Poll Service to request that data from the TAXII Data
@@ -223,7 +233,7 @@ public class PollRequest implements org.apache.thrift.TBase<PollRequest, PollReq
   }
 
   // isset id assignments
-  private _Fields optionals[] = {_Fields.EXCLUSIVE_BEGIN_TIMESTAMP_LABEL, _Fields.INCLUSIVE_END_TIMESTAMP_LABEL, _Fields.SUBSCRIPTION_ID, _Fields.POLL_PARAMETER};
+  private _Fields optionals[] = {_Fields.EXCLUSIVE_BEGIN_TIMESTAMP_LABEL,_Fields.INCLUSIVE_END_TIMESTAMP_LABEL,_Fields.SUBSCRIPTION_ID,_Fields.POLL_PARAMETER};
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);

@@ -6,23 +6,31 @@
  */
 package com.yellowcab;
 
-import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TProtocolException;
-import org.apache.thrift.protocol.TTupleProtocol;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
-import org.apache.thrift.scheme.TupleScheme;
-import org.apache.thrift.server.AbstractNonblockingServer.*;
 
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
+import org.apache.thrift.scheme.TupleScheme;
+import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TProtocolException;
+import org.apache.thrift.EncodingUtils;
+import org.apache.thrift.TException;
+import org.apache.thrift.async.AsyncMethodCallback;
+import org.apache.thrift.server.AbstractNonblockingServer.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents an instance of a subscription
@@ -61,7 +69,7 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
    *       response to a request with and Action field value of
    *       STATUS. This field MAY be present when responding to
    *       any other Action type.
-   *
+   * 
    * *
    */
   public SubscriptionParameter subscriptionParameter; // optional
@@ -74,7 +82,7 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
    *       fulfillment of the established subscription. (It does not
    *       matter whether the subscription is currently in a
    *       PAUSED state.)
-   *
+   * 
    * *
    */
   public DeliveryParameter subscriptionDeliveryParameter; // optional
@@ -88,7 +96,7 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
    *       can be contacted for content for this subscription. If
    *       this field is absent, this indicates that polling for
    *       subscription content is not supported via TAXII.
-   *
+   * 
    * *
    */
   public Set<PollingInstance> pollingInstances; // optional
@@ -99,9 +107,9 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
     /**
      *     * This field contains the status of the Subscription.
      * If this field is absent, treat it as having a value of Active.
-     *
+     * 
      * *
-     *
+     * 
      * @see SubscriptionStatus
      */
     STATUS((short)2, "status"),
@@ -113,7 +121,7 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
      *       response to a request with and Action field value of
      *       STATUS. This field MAY be present when responding to
      *       any other Action type.
-     *
+     * 
      * *
      */
     SUBSCRIPTION_PARAMETER((short)3, "subscriptionParameter"),
@@ -126,7 +134,7 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
      *       fulfillment of the established subscription. (It does not
      *       matter whether the subscription is currently in a
      *       PAUSED state.)
-     *
+     * 
      * *
      */
     SUBSCRIPTION_DELIVERY_PARAMETER((short)4, "subscriptionDeliveryParameter"),
@@ -140,7 +148,7 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
      *       can be contacted for content for this subscription. If
      *       this field is absent, this indicates that polling for
      *       subscription content is not supported via TAXII.
-     *
+     * 
      * *
      */
     POLLING_INSTANCES((short)5, "pollingInstances");
@@ -208,20 +216,20 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
   }
 
   // isset id assignments
-  private _Fields optionals[] = {_Fields.STATUS, _Fields.SUBSCRIPTION_PARAMETER, _Fields.SUBSCRIPTION_DELIVERY_PARAMETER, _Fields.POLLING_INSTANCES};
+  private _Fields optionals[] = {_Fields.STATUS,_Fields.SUBSCRIPTION_PARAMETER,_Fields.SUBSCRIPTION_DELIVERY_PARAMETER,_Fields.POLLING_INSTANCES};
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.SUBSCRIPTION_ID, new org.apache.thrift.meta_data.FieldMetaData("subscriptionId", org.apache.thrift.TFieldRequirementType.REQUIRED,
+    tmpMap.put(_Fields.SUBSCRIPTION_ID, new org.apache.thrift.meta_data.FieldMetaData("subscriptionId", org.apache.thrift.TFieldRequirementType.REQUIRED, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.STATUS, new org.apache.thrift.meta_data.FieldMetaData("status", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.STATUS, new org.apache.thrift.meta_data.FieldMetaData("status", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, SubscriptionStatus.class)));
-    tmpMap.put(_Fields.SUBSCRIPTION_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("subscriptionParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.SUBSCRIPTION_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("subscriptionParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, SubscriptionParameter.class)));
-    tmpMap.put(_Fields.SUBSCRIPTION_DELIVERY_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("subscriptionDeliveryParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL,
+    tmpMap.put(_Fields.SUBSCRIPTION_DELIVERY_PARAMETER, new org.apache.thrift.meta_data.FieldMetaData("subscriptionDeliveryParameter", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, DeliveryParameter.class)));
-    tmpMap.put(_Fields.POLLING_INSTANCES, new org.apache.thrift.meta_data.FieldMetaData("pollingInstances", org.apache.thrift.TFieldRequirementType.OPTIONAL,
-        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET,
+    tmpMap.put(_Fields.POLLING_INSTANCES, new org.apache.thrift.meta_data.FieldMetaData("pollingInstances", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET, 
             new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, PollingInstance.class))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(SubscriptionInstance.class, metaDataMap);
@@ -302,9 +310,9 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
   /**
    *     * This field contains the status of the Subscription.
    * If this field is absent, treat it as having a value of Active.
-   *
+   * 
    * *
-   *
+   * 
    * @see SubscriptionStatus
    */
   public SubscriptionStatus getStatus() {
@@ -314,9 +322,9 @@ public class SubscriptionInstance implements org.apache.thrift.TBase<Subscriptio
   /**
    *     * This field contains the status of the Subscription.
    * If this field is absent, treat it as having a value of Active.
-   *
+   * 
    * *
-   *
+   * 
    * @see SubscriptionStatus
    */
   public SubscriptionInstance setStatus(SubscriptionStatus status) {
